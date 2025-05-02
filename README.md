@@ -52,3 +52,13 @@ CIFAR100, WideResNet-34-10
 bash scripts/ARAT+SWA/cifar100_wrn-34-10.sh
 ```
 
+
+# Citation
+```
+@article{waseda2024rethinking,
+  title={Rethinking Invariance Regularization in Adversarial Training to Improve Robustness-Accuracy Trade-off},
+  author={Waseda, Futa and Chang, Ching-Chun and Echizen, Isao},
+  journal={The Thirteenth International Conference on Learning Representations},
+  year={2025}
+}
+```
