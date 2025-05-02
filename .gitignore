@@ -1,3 +1,13 @@
+# remove log files
+ckpts/**/*
+logs/**/*
+**/*.log
+**/*.out
+figures/**/*
+slurm_logs/*
+
+*.pt
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
