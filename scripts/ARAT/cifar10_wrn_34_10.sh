@@ -1,6 +1,16 @@
+#!/bin/sh
+
+#SBATCH -J c10_wrn34_10
+#SBATCH -p qgpu
+#SBATCH --gres=gpu:tesla_a100:1
+#SBATCH --cpus-per-task=4
+#SBATCH --time=72:00:00
+#SBATCH --mail-type=ALL
+#SBATCH -o ./slurm_logs/slurm-%j-%a.out
+
 ########### DATASET ###########
-# dataset=cifar10
-dataset=cifar100
+dataset=cifar10
+# dataset=cifar100
 
 
 
@@ -8,15 +18,15 @@ dataset=cifar100
 
 # RESNET18
 
-model=cifar_resnet18_split_bn
-align_layers="layer4.0.bn1,layer4.0.bn2,layer4.1.bn1,layer4.1.bn2"
-align_features_weight=30.0
+# model=cifar_resnet18_split_bn
+# align_layers="layer4.0.bn1,layer4.0.bn2,layer4.1.bn1,layer4.1.bn2"
+# align_features_weight=30.0
 
 # WRN-34-10
 
-# model=cifar_wrn_34_10_split_bn
-# align_layers="block3.layer.0.relu1,block3.layer.0.relu2,block3.layer.1.relu1,block3.layer.1.relu2,block3.layer.2.relu1,block3.layer.2.relu2,block3.layer.3.relu1,block3.layer.3.relu2,block3.layer.4.relu1,block3.layer.4.relu2,avgpool"
-# align_features_weight=100.0
+model=cifar_wrn_34_10_split_bn
+align_layers="block3.layer.0.relu1,block3.layer.0.relu2,block3.layer.1.relu1,block3.layer.1.relu2,block3.layer.2.relu1,block3.layer.2.relu2,block3.layer.3.relu1,block3.layer.3.relu2,block3.layer.4.relu1,block3.layer.4.relu2,avgpool"
+align_features_weight=100.0
 
 
 

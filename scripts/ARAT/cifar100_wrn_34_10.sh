@@ -1,3 +1,13 @@
+#!/bin/sh
+
+#SBATCH -J c100_wrn34_10
+#SBATCH -p qgpu
+#SBATCH --gres=gpu:tesla_a100:1
+#SBATCH --cpus-per-task=4
+#SBATCH --time=72:00:00
+#SBATCH --mail-type=ALL
+#SBATCH -o ./slurm_logs/slurm-%j-%a.out
+
 ########### DATASET ###########
 # dataset=cifar10
 dataset=cifar100

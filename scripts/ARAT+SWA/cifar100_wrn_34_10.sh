@@ -1,6 +1,17 @@
+#!/bin/sh
+
+#SBATCH -J c100_wrn34_10
+#SBATCH -p qgpu
+#SBATCH --gres=gpu:tesla_a100:1
+#SBATCH --cpus-per-task=4
+#SBATCH --time=72:00:00
+#SBATCH --mail-type=ALL
+#SBATCH -o ./slurm_logs/slurm-%j-%a.out
+
+
 ########### DATASET ###########
-dataset=cifar10
-# dataset=cifar100
+# dataset=cifar10
+dataset=cifar100
 
 
 
@@ -28,26 +39,25 @@ seed=0
 
 #### ARAT ###
 
-mark=ARAT
-is_auto_balance_ce_loss=True
-is_use_predictor_xx=True
-align_type="x->y"
-bn_names="base,base_adv"
-is_swa=False
-swa_freq=-1
-swa_start=-1
-
-#### ARAT+SWA ###
-
-# mark=ARAT+SWA
+# mark=ARAT
 # is_auto_balance_ce_loss=True
 # is_use_predictor_xx=True
 # align_type="x->y"
 # bn_names="base,base_adv"
-# is_swa=True
-# swa_freq=500
-# swa_start=76
+# is_swa=False
+# swa_freq=-1
+# swa_start=-1
 
+#### ARAT+SWA ###
+
+mark=ARAT+SWA
+is_auto_balance_ce_loss=True
+is_use_predictor_xx=True
+align_type="x->y"
+bn_names="base,base_adv"
+is_swa=True
+swa_freq=500
+swa_start=76
 
 
 
