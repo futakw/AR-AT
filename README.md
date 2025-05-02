@@ -4,11 +4,11 @@
 
 ## Method
 <!-- pdf -->
-![ARAT](https://github.com/futakw/AR-AT/blob/main/assets/method_fig.pdf)
+![ARAT](https://github.com/futakw/AR-AT/blob/main/assets/method_fig.png)
 
 ## Results
 <!-- pdf -->
-![ARAT](https://github.com/futakw/AR-AT/blob/main/assets/result_fig.pdf)
+![ARAT](https://github.com/futakw/AR-AT/blob/main/assets/result_fig.png)
 
 ## Quick try
 ### 1. Environment setup
