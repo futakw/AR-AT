@@ -46,7 +46,6 @@ class AlignLoss(nn.Module):
         args,
         loss_metric="cos-sim",
         align_type="x->y",
-        # is_use_predictor=True,
         is_use_predictor_x=False,
         is_use_predictor_y=False,
         is_ise_shared_predictor=False,

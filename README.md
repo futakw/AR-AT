@@ -13,6 +13,12 @@
 ## Quick try
 ### 1. Environment setup
 ```
+conda create -n arat python=3.8
+conda activate arat
+conda install git pip -y
+```
+
+```
 pip install -r requirements.txt
 ```
 
