@@ -34,9 +34,6 @@ def get_model(args, name, num_classes):
             dropRate=0.0,
             original=False,
         )
-    elif name == "cifar_wrn-28-10-swish":
-        net = wideresnetwithswish("wrn-28-10-swish", dataset=args.dataset, num_classes=num_classes)
-
     elif name == "cifar_resnet18_split_bn":
         from .cifar_resnet_split_bn import BasicBlock as BasicBlockSplitBN
         from .cifar_resnet_split_bn import ResNet as ResNetSplitBN

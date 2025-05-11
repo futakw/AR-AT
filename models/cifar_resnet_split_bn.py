@@ -186,7 +186,7 @@ class ResNet(nn.Module):
 
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
 
-        self.bn_name = "base"
+        self.bn_name = None
 
     def set_bn_name(self, bn_name):
         self.bn_name = bn_name
@@ -267,7 +267,7 @@ def test():
 # test()
 
 if __name__ == "__main__":
-    model =  ResNet(BasicBlock, [2, 2, 2, 2], bn_names=["base", "adv"])
+    model =  ResNet(BasicBlock, [2, 2, 2, 2], bn_names=["clean", "adv"])
     print(model)
 
     x = torch.randn(1, 3, 32, 32)

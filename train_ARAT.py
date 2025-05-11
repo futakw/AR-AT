@@ -20,7 +20,6 @@ from loss import AlignLoss
 from models.load_model import load_model
 from utils.config_utils import str2bool as s2b, str2strlist as s2sl, str2intlist as s2il
 from utils.data import get_dataloaders
-from utils.share_layers import share_layers
 from utils.utils import Tee
 from utils.swa import moving_average, bn_update_adv
 
@@ -293,6 +292,7 @@ def main():
     net = load_model(args, args.model, num_classes, extract_layers=args.align_layers,
                        is_avg_pool=args.is_avg_pool, is_relu=args.is_relu).to(device)
     
+    net_swa = None
     if args.is_swa:
         net_swa = load_model(args, args.model, num_classes, extract_layers=args.align_layers, is_avg_pool=args.is_avg_pool, is_relu=args.is_relu).to(device)
 
@@ -420,6 +420,7 @@ def main():
             device,
             bn_adv=BN_ADV,
             bn_clean=BN_CLEAN,
+            net_swa=net_swa,
         )
 
         # test clean accuracy
@@ -430,7 +431,6 @@ def main():
 
         # Save model
         model_save_path = os.path.join(SAVE_DIR, f"epoch_{epoch}.pt")
-        optim_save_path = os.path.join(SAVE_DIR, f"optim_{epoch}.pt")
         if epoch % args.save_interval == 0:
             # save model (remove featExtract wrapper)
             save_checkpoint(net, model_save_path, optimizer, scheduler)
@@ -446,7 +446,6 @@ def main():
         if epoch % args.eval_interval == 0:
             net.model.set_bn_name(BN_ADV)
             _, adv_acc = evaluate(
-                args,
                 net,
                 test_loader,
                 lpnorm=args.attack_norm,
@@ -464,7 +463,6 @@ def main():
                 bn_update_adv(train_loader, net_swa, adversary)
 
                 _, adv_acc_swa = evaluate(
-                    args,
                     net_swa,
                     test_loader,
                     lpnorm=args.attack_norm,
@@ -490,7 +488,7 @@ def main():
 
         if epoch in args.eval_auto_attack_ep:
             net.model.set_bn_name(BN_ADV)
-            _, adv_acc_AA = evaluate_auto_attack(args, net, test_loader, lpnorm=args.attack_norm)
+            _, adv_acc_AA = evaluate_auto_attack(net, test_loader, args.num_classes, lpnorm=args.attack_norm)
             writer.add_scalar("adv_acc_AA", adv_acc_AA, epoch)
             print("adv_acc_AA:", adv_acc_AA)
 
@@ -520,15 +518,14 @@ def main():
 
     # Save Last Model
     #  (remove featExtract wrapper)
-    model_save_path = os.path.join(SAVE_DIR, "model_last.pt")
-    optim_save_path = os.path.join(SAVE_DIR, "optim_last.pt")
+    model_save_path = os.path.join(SAVE_DIR, "last.pt")
     save_checkpoint(net, model_save_path, optimizer, scheduler)
 
 
     # Eval Auto Attack
     if args.is_eval_auto_attack:
         net.model.set_bn_name(BN_ADV)
-        _, adv_acc_AA = evaluate_auto_attack(args, net, test_loader, lpnorm=args.attack_norm)
+        _, adv_acc_AA = evaluate_auto_attack(net, test_loader, args.num_classes, lpnorm=args.attack_norm)
         writer.add_scalar("adv_acc_AA", adv_acc_AA, epoch)
         print("adv_acc_AA:", adv_acc_AA)
 
@@ -536,7 +533,7 @@ def main():
             print("eval swa")
             net_swa.model.set_bn_name(BN_ADV)
             bn_update_adv(train_loader, net_swa, adversary)
-            _, adv_acc_AA_swa = evaluate_auto_attack(args, net_swa, test_loader, lpnorm=args.attack_norm)
+            _, adv_acc_AA_swa = evaluate_auto_attack(net_swa, test_loader, args.num_classes, lpnorm=args.attack_norm)
             writer.add_scalar("adv_acc_AA_swa", adv_acc_AA_swa, epoch)
             print("adv_acc_AA_swa:", adv_acc_AA_swa)
 
@@ -555,7 +552,6 @@ def main():
         "adv_acc": adv_acc,
         "adv_acc_AA": adv_acc_AA,
         "test_acc_sub": test_acc_sub,
-        "adv_acc_sub": adv_acc_sub,
     }
 
     args_dict = vars(args)
