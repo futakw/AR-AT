@@ -578,5 +578,3 @@ if __name__ == "__main__":
     main()
     print("Total time: {} / min".format((time.time() - st) / 60))
     print("Done")
-    sys.stdout.close()
-    sys.stderr.close()
