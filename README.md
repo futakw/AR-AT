@@ -22,7 +22,7 @@ conda install git pip -y
 pip install -r requirements.txt
 ```
 
-### 2. Train ARAT
+### 2-1. Train ARAT
 CIFAR10, ResNet-18
 ```
 bash scripts/ARAT/cifar10_resnet18.sh
@@ -40,7 +40,7 @@ CIFAR100, WideResNet-34-10
 bash scripts/ARAT/cifar100_wrn-34-10.sh
 ```
 
-### 2. Train ARAT+SWA
+### 2-2. Train ARAT+SWA
 CIFAR10, ResNet-18
 ```
 bash scripts/ARAT+SWA/cifar10_resnet18.sh
@@ -58,6 +58,8 @@ CIFAR100, WideResNet-34-10
 bash scripts/ARAT+SWA/cifar100_wrn-34-10.sh
 ```
 
+### 3. Model Weights
+https://drive.google.com/file/d/1MmxURwmELuQw1dctmfvilPpejdBhxukO/view?usp=sharing
 
 # Citation
 ```
